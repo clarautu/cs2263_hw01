@@ -9,6 +9,14 @@ A summary of relevant changes
 ### Removed
 -
 
+## [1.1.0] - 2022-02-05
+### Added
+- Expression evaluating from command line and from file
+### Changed
+- Build script standard input set to terminal
+### Removed
+- Nothing removed
+
 ## [1.0.0] - 2022-02-05
 ### Added
 - Apache Commons options '-h','--help','-o','--output','-b','--batch'
