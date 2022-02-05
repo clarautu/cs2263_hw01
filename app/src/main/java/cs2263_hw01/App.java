@@ -5,6 +5,10 @@ package cs2263_hw01;
 
 import org.apache.commons.cli.*;
 
+import javax.xml.crypto.Data;
+import java.io.*;
+import java.util.Scanner;
+
 import static java.lang.System.exit;
 
 public class App {
@@ -51,12 +55,94 @@ public class App {
             }
             if(cmd.hasOption("b")){
                 System.out.println("Batch value: " + cmd.getOptionValue("b"));
+                FileEvaluate(cmd.getOptionValue("b"));
             }
             if(cmd.hasOption("batch")){
                 System.out.println("Batch value: " + cmd.getOptionValue("batch"));
+                FileEvaluate(cmd.getOptionValue("batch"));
+            }
+            if(!(cmd.hasOption("batch") || cmd.hasOption("b"))){
+                System.out.println("Made it to CMDEvaluate()");
+                CMDEvaluate();
             }
         } catch (ParseException exp) {
             System.out.println("Unexpected exception: " + exp.getMessage());
         }
+    }
+
+    /**
+     * Loops the command line infinitely and takes user input
+     */
+    private static void CMDEvaluate(){
+        Evaluator evaluator = new Evaluator();
+        System.out.println("Type 'exit', 'stop', or 'end' to close the program.");
+        System.out.println("Type the expression you want to evaluate:");
+        try {
+            Scanner scanner = new Scanner(System.in);
+            while(true) {
+                String input = scanner.nextLine();
+                if (input.equals("exit") || input.equals("end") || input.equals("stop")) {
+                    scanner.close();
+                    exit(0);
+                }
+                Print(input);
+                evaluator.setPassedInput(input);
+                try {
+                    double solution = evaluator.Evaluate();;
+                    Print(solution);
+                } catch (Exception e) {
+                    System.out.println("Your input was not understood. Ensure your expression is of the form\n\t" +
+                            "\'5*6/2-2.1\' or \'5 * 6 / 2 - 2.1\'");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Evaluates expressions located in a file
+     * @param path The path to the file to be read from
+     */
+    private static void FileEvaluate(String path){
+
+        try {
+            FileInputStream fstream = new FileInputStream("../" + path);
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line;
+            while((line = br.readLine()) != null){
+                Evaluator evaluator = new Evaluator();
+                Print(line);
+                evaluator.setPassedInput(line);
+                try {
+                    double solution = evaluator.Evaluate();;
+                    Print(solution);
+                } catch (Exception e) {
+                    System.out.println("A line was not understood. Ensure your expression is of the form\n\t" +
+                            "\'5*6/2-2.1\' or \'5 * 6 / 2 - 2.1\'");
+                }
+            }
+            in.close();
+        } catch(Exception e){
+            System.out.println("There was an issue with your file. Please check the path is correct.\n"+
+                    e.getMessage());
+        }
+    }
+
+    /**
+     * Prints a String to the standard output
+     * @param input A mathematical expression in String form
+     */
+    private static void Print(String input){
+        System.out.println("You entered: " + input);
+    }
+
+    /**
+     * Prints a double to the standard output
+     * @param solution The solution to an expression in double form
+     */
+    private static void Print(double solution){
+        System.out.println("Solution: " + solution);
     }
 }
