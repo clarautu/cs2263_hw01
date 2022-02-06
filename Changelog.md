@@ -9,6 +9,14 @@ A summary of relevant changes
 ### Removed
 -
 
+## [1.2.0] - 2022-02-05
+### Added
+- Ability to output to a file, as well as the terminal
+### Changed
+- Nothing changed
+### Removed
+- "Step-calculation" printouts while expressions are being evaluated
+
 ## [1.1.0] - 2022-02-05
 ### Added
 - Expression evaluating from command line and from file
