@@ -53,10 +53,8 @@ public class Evaluator {
         int i = 1;
         int j = 0;
         double temp = Double.parseDouble(splitInput[0][0]);
-        System.out.println("\tValue is currently: " + temp);
         while(true){
             temp = StepCalculation(temp, Double.parseDouble(splitInput[0][i]), splitInput[1][j]);
-            System.out.println("\tValue is currently: " + temp);
             i++;
             j++;
             if (splitInput[0][i] == null){
@@ -116,7 +114,6 @@ public class Evaluator {
      */
     private double StepCalculation(double value, double nextValue, String operand){
         char y = operand.charAt(0);
-        System.out.println("\tStep calculation\n\t\tcurrent: "+value+" op: "+operand+" next: "+nextValue);
         if (y == 42){
             // Operand is *
             value *= nextValue;
